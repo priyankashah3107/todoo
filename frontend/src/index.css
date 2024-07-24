@@ -4,7 +4,7 @@
 
 
 
-
+/* 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #f4f4f4;
@@ -14,8 +14,8 @@
   --shadow2: 2px 3px 0px var(--black);
   --shadow3: 5px 6px 0px var(--black);
 
-}
-
+} */
+/* 
 .shadow {
   box-shadow: var(--shadow-text);
 }
@@ -28,10 +28,10 @@
 .shadow3 {
   box-shadow: var(--shadow3);
 }
-
+ */
 
 /* button animate */
-button.shadow1:hover:enabled {
+/* button.shadow1:hover:enabled {
   box-shadow: 2px 3px 0px 0px var(--black);
   transform: translate(-1px, -1px);
 }
@@ -65,4 +65,29 @@ button {
       box-shadow: unset !important;
       transform: scale(0.99) translate(4px, 4px) !important;
   }
+} */
+
+
+.err{
+  background-color: #ff5f5f;
+  height: 30px;
+  width: 80px;
+  border-radius: 10%;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.bl{
+  background-color: #7cabf6;
+  height: 30px;
+  width: 78px;
+  border-radius: 10%;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.vd{
+  width: 140px;
 }
