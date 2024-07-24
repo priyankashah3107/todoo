@@ -9,6 +9,7 @@ const ListTasks = ({tasks, setTasks}) => {
   const [closed, setClosed] = useState([]);
 
   useEffect(() => {
+    if(Array.isArray(tasks)) {
     const filterTodo = tasks.filter((task) => task.status === "todo")
     const filterinProgress = tasks.filter((task) => task.status === "inProgress");
     const filterClosed = tasks.filter((task) => task.status === "closed")
@@ -16,6 +17,7 @@ const ListTasks = ({tasks, setTasks}) => {
     setTodos(filterTodo);
     setInProgress(filterinProgress);
     setClosed(filterClosed)
+    }
   }, [tasks]);
 
   const statueues = ["todo", "inProgress", "closed"]

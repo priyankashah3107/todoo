@@ -240,7 +240,7 @@ import ListTasks from './ListTasks';
 import  { Toaster } from 'react-hot-toast';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-
+import {NotebookIcon} from "lucide-react"
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
 
@@ -251,6 +251,13 @@ const Dashboard = () => {
   }, [])
   return (
     <> 
+
+<div className='bg-blue-600 w-screen p-5 flex flex-row justify-between'>
+         <NotebookIcon  className='text-white' size={25}/>
+         <div className='flex flex-row gap-10 text-white'>
+         <button className="btn btn-error text-white">Logout</button>
+         </div>
+        </div>
       {/* yaha per aur bhi logout wali chize aayegi baki  toast k baad sab sab dnd se wrap kr rhi */}
       
       <DndProvider backend={HTML5Backend} >
