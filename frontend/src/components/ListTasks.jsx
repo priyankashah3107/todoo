@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import{ Link} from "react-router-dom"
 import toast from 'react-hot-toast';
+import { useDrag, useDrop } from 'react-dnd';
 
 const ListTasks = ({tasks, setTasks}) => {
   const [todos, setTodos] = useState([]);
@@ -42,6 +43,17 @@ export default ListTasks
 
 
 const Section = ({status, tasks, setTasks, todos, inProgress, closed}) => {
+
+    
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "task",
+    drop: (item) => addItemToSection(item.id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver()
+    })
+  }))
+
+
   let text = "Todo";
   let bg = "bg-blue-400";
   let taskToMap = todos;
@@ -56,12 +68,30 @@ const Section = ({status, tasks, setTasks, todos, inProgress, closed}) => {
     bg = "bg-green-400";
     taskToMap = closed;
   }
+
+  const addItemToSection = (id) => {
+     console.log("Dropped", id, status)
+     
+     setTasks((prev) => {
+      const modifiTasks = prev.map((t) => {
+        if(t.id === id){
+          return {...t, status: status};
+        }
+        return t;
+      });
+      localStorage.setItem("tasks", JSON.stringify(modifiTasks));
+      toast.success("🎉 Tasks status Changed")
+      return modifiTasks;
+     })
+  }
+
+
   return (
     <>
-    <div className="w-64">
+    <div ref={drop} className={`w-64 rounded-md p-2 ${isOver ? "bg-[#f5f5f5]" : ""}`}>
       <Header text={text} bg={bg} count={taskToMap.length} />
       {taskToMap.length > 0 && taskToMap.map((task) => (
-        <Task key={task.id} task={task} tasks={tasks} setTasks={setTasks}  />
+        <Task key={task.id} task={task} tasks={tasks} setTasks={setTasks}/>
       ))}
     </div>
      
@@ -87,6 +117,18 @@ const Header = ({text, bg, count}) => {
 
 const Task = ({task,  tasks, setTasks}) => {
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "task",
+    item: {id: task.id},
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }))
+
+  console.log(isDragging)
+
+
+
   const handleDelete = (id) => {
      console.log(id);
 
@@ -102,7 +144,7 @@ const Task = ({task,  tasks, setTasks}) => {
   return (
    <>
      <div key={task.id} className="">
-      <div className="bg-blue-100 p-10 mt-8 rounded-lg shadow-lg cursor-grab flex flex-col gap-2">
+      <div ref={drag} className={`bg-blue-100 p-10 mt-8 rounded-lg shadow-lg cursor-grab flex flex-col gap-2 ${isDragging ? "opacity-30" : "opacity-100"} `}>
         <h1 className='text-xl font-semibold'>{task.name}</h1>
         <p className="font-medium text-gray-700">{task.description}</p>
         <p className='text-gray-500'>Created At: {task.createdAt}</p>

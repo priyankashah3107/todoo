@@ -238,6 +238,8 @@ import React, { useEffect, useState } from 'react'
 import CreateTasks from './CreateTasks';
 import ListTasks from './ListTasks';
 import  { Toaster } from 'react-hot-toast';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -248,12 +250,16 @@ const Dashboard = () => {
         setTasks(JSON.parse(localStorage.getItem("tasks")));
   }, [])
   return (
-    <>
+    <> 
+      {/* yaha per aur bhi logout wali chize aayegi baki  toast k baad sab sab dnd se wrap kr rhi */}
+      
+      <DndProvider backend={HTML5Backend} >
      <Toaster />
      <div className="flex flex-col items-center w-screen h-screen pt-10 gap-16">
        <CreateTasks  tasks={tasks} setTasks={setTasks}/>
        <ListTasks tasks={tasks} setTasks={setTasks} />
      </div>
+     </DndProvider>
     </>
   )
 }
