@@ -90,8 +90,16 @@ export const getAllPost = async (req, res) => {
 
 export const viewPost = async (req, res) => {
    try {
-    
+     const {id: postId} = req.params;
+     const partiPost = await Post.findById(postId)
+     
+     if(!partiPost) {
+      return res.status(404).json({err: "Id with this post in not exist"});
+     }
+
+     res.status(200).json(partiPost)
    } catch (error) {
-    
+     console.error("Error in View Post Controllers", error.message)
+     res.status(500).json({err: "Internal Server Error"});
    }
 }
