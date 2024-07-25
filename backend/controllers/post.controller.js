@@ -55,11 +55,19 @@ export const updatePost = async (req, res) => {
 
 
 export const deletePost = async (req, res) => {
-
   try {
-    
+    const {id: postId} = req.params
+    const post = await Post.findByIdAndDelete(postId)
+
+    if(!post) {
+      return res.status(404).json({error: "Post not Found"});
+    }
+  
+    res.status(200).json({message: "Post Deleted Successfully"})
+
   } catch (error) {
-    
+    console.error("Error in DeletePost Controller", error.message)
+    res.status(500).json({err: "Internal Server Error"}, error.message)
   }
 }
 
@@ -68,9 +76,15 @@ export const deletePost = async (req, res) => {
 export const getAllPost = async (req, res) => {
 
   try {
-    
+    const posts = await Post.find(); // it will retrive all the posts from the db
+
+    if(!posts.length) {
+      return res.status(404).json({err: "Posts are not available"})
+    }
+    res.status(200).json(posts)
   } catch (error) {
-    
+    console.error("Error in GetAllPost Controller", error.message)
+    res.status(500).json({err: "Internal Server Error"})
   }
 }
 
