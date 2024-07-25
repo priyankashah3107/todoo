@@ -4,7 +4,7 @@ import connectToMongoDb from "./db/connectoMongoDb.js"
 import authRoutes from "./routes/auth.route.js"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser";
-
+import postRoutes from "./routes/post.route.js"
 
 dotenv.config()
 const app = express()
@@ -27,6 +27,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/auth", authRoutes)
+app.use("/api/posts", postRoutes)
 
 app.listen(port, ()=> {
   console.log(`App is running of port http://localhost:${port}`)
