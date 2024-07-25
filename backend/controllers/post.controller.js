@@ -29,46 +29,14 @@ export const createPost = async (req, res) => {
   }
 }
 
-
-
-// export const updatePost = async (req, res) => {
-//   const {id: postId} = req.params;
-//   const {userId} = req.user._id.toString();
-//   const {name, description} = req.body;
-//    try {
-//     let post = await Post.findById(postId);
-//     if(!post) {
-//       return res.status(400).json({error: "Post is not present with this Id"})
-//     }
-
-//     if(post.user.toString !== userId) {
-//       return res.status(403).json({ error: "User not authorized to update this post" });
-//     }
-
-//     if(name) post.name = name;
-//     if(description) post.description = description;
-
-//     post = await post.save();
-
-//     return res.status(200).json(post)
-
-//    } catch (error) {
-//     console.error("Error in UpdatePost", error.message);
-//     res.status(500).json({error: "Internal Server Error"})
-//    }
-// }
-
-
 export const updatePost = async (req, res) => {
   try {
     const { id: postId } = req.params;
-    const post = await Post.findByIdAndUpdate(
-      postId,
-      {
-        name: req.body.name,
-        description: req.body.description,
-      },
-      { new: true } // This option returns the updated document
+    const {name, description} = req.body
+    const post = await Post.findByIdAndUpdate(postId,{
+        name,
+        description
+      },{ new: true } // This option returns the updated document
     );
 
     if (!post) {
@@ -94,6 +62,8 @@ export const deletePost = async (req, res) => {
     
   }
 }
+
+
 
 export const getAllPost = async (req, res) => {
 
