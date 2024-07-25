@@ -107,9 +107,11 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
    try {
-    
+    res.cookie("jwt", "", {maxAge: 0})
+    res.status(200).json({message: "Successfully Logout"});
    } catch (error) {
-    
+    console.error("Error in Logout Controller", error);
+    res.status(500).json({err: "Internal Server Error"});
    }
 }
 
@@ -118,8 +120,10 @@ export const logout = async (req, res) => {
 export const getMe = async (req, res) => {
 
   try {
-    
+    const user = await User.findById(req.user?._id).select("-password");
+    res.status(200).json(user)
   } catch (error) {
-    
+    console.error("Error in GetMe controllers", error);
+    res.status(500).json({err: "Invalid Server Error"});
   }
 }
