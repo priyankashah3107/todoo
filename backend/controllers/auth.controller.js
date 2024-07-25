@@ -76,21 +76,26 @@ export const login = async (req, res) => {
     const {email, password} = req.body;
 
 
-    const corrEmail = await User.findOne({email})
+    if(!email || !password) {
+      return res.status(400).json({error: "email and Password are Required"});
+    }
 
-    const isPasswordcorr = await bcrypt.compare(password , corrEmail?.password || "" );
+    const user = await User.findOne({email})
+    const isPasswordcorr = await bcrypt.compare(password , user?.password || "" );
 
     if(!email || !isPasswordcorr) {
       return res.status(400).json({error: "Invalid Email and Password"})
     }
 
-    setCookieAndToken(corrEmail._id, res);
+    
+
+    setCookieAndToken(user._id, res);
 
     res.status(200).json({
-        _id: corrEmail._id,
-        email: corrEmail.email,
-        firstname: corrEmail.firstname, 
-        lastname: corrEmail.lastname,
+        _id: user._id,
+        email: user.email,
+        firstname: user.firstname, 
+        lastname: user.lastname,
 
     })
   } catch (error) {
