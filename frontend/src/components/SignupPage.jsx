@@ -88,7 +88,7 @@ const SignupPage = () => {
 							value={formData.confirmpassword}
 						/>
 					</label>
-          <button className='btn rounded-md w-[230px] btn-primary text-white'>Login</button>
+          <button className='btn rounded-md w-[230px] btn-primary text-white'>Signup</button>
           <div className='flex flex-col gap-2 mt-4'>
 					<p className='text-black text-lg'>{"Don't"}Already have an account?
 					<Link to='/' className='text-blue-600 pl-2'>Login</Link>
