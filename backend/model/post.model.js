@@ -1,15 +1,20 @@
 import mongoose, { model, Schema } from "mongoose";
 const postSchema = new Schema({
-   todo: {
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+   name: {
     type: String, 
     require: true
    },
 
-   desc: {
+   description: {
     type: String, 
     require: true,
    }
-}) 
+}, {timestamps: true}) 
 
 const Post = new mongoose.model("posts", postSchema)
 
