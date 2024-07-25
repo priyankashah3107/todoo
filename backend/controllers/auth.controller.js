@@ -73,9 +73,29 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    
+    const {email, password} = req.body;
+
+
+    const corrEmail = await User.findOne({email})
+
+    const isPasswordcorr = await bcrypt.compare(password , corrEmail?.password || "" );
+
+    if(!email || !isPasswordcorr) {
+      return res.status(400).json({error: "Invalid Email and Password"})
+    }
+
+    setCookieAndToken(corrEmail._id, res);
+
+    res.status(200).json({
+        _id: corrEmail._id,
+        email: corrEmail.email,
+        firstname: corrEmail.firstname, 
+        lastname: corrEmail.lastname,
+
+    })
   } catch (error) {
-    
+    console.error("Error in Login Controllers", error.message)
+    res.status(500).json({err: "Internal Server Error"})
   }
 }
 
