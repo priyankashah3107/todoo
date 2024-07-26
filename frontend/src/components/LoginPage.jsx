@@ -2,12 +2,13 @@
 import React, { useState } from 'react'
 import { MdOutlineMail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from './Navbar';
 import { User } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 const LoginPage = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,9 +36,37 @@ const LoginPage = () => {
         }
        },
        onSuccess: () => {
-        toast.success("Account login successfully ✨")
+        toast.success("Account login successfully ✨");
+        authUser();
        }
   })
+
+
+
+  const {mutate: authUser} = useMutation({
+    mutationFn: async () => {
+      try {
+          const res = await fetch("/api/auth/me");
+          const data = await res.json();
+          if(!res.ok) {
+           throw new Error(data.error || "Something went wrong");
+          } 
+          console.log("This is AuthUser", data);
+          return data;
+      } catch (error) {
+       console.error(error.message);
+        throw new Error(error)
+      }
+    },
+    onSuccess: () => {
+     toast.success("Now You are authenticated User")
+     navigate("/dashboard")
+    },
+    onError: (error) => {
+      toast.error(error)
+    }
+ })
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,6 +74,7 @@ const LoginPage = () => {
     mutate(formData)
   }
 
+ 
   const handleInputChange = (e) => {
     setFormData({...formData, [e.target.name] : e.target.value});
   }

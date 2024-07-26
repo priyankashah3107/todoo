@@ -271,7 +271,31 @@ const Dashboard = () => {
     onError: (error) => {
       toast.error(error.message)
     }
-  })
+  });
+
+  // const {mutate: authUser} = useMutation({
+  //    mutationFn: async () => {
+  //      try {
+  //          const res = await fetch("/api/auth/me");
+  //          const data = await res.json();
+  //          if(!res.ok) {
+  //           throw new Error(data.error || "Something went wrong");
+  //          } 
+  //          console.log("This is AuthUser", data);
+  //          return data;
+  //      } catch (error) {
+  //       console.error(error.message);
+  //        throw new Error(error)
+  //      }
+  //    },
+  //    onSuccess: () => {
+  //     toast.success("AuthUSer")
+  //     navigate("/dashboard")
+  //    },
+  //    onError: (error) => {
+  //      toast.error(error)
+  //    }
+  // })
 
   useEffect(() => {
         setTasks(JSON.parse(localStorage.getItem("tasks")));
