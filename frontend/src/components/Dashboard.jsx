@@ -237,14 +237,41 @@
 import React, { useEffect, useState } from 'react'
 import CreateTasks from './CreateTasks';
 import ListTasks from './ListTasks';
-import  { Toaster } from 'react-hot-toast';
+import  toast, { Toaster } from 'react-hot-toast';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import {NotebookIcon} from "lucide-react"
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
-
+  const navigate = useNavigate();
   console.log("tasks", tasks);
+
+  const {mutate: logOut} = useMutation({
+    mutationFn: async () => {
+      try {
+        const res = await fetch("/api/auth/logout", {
+          method: "DELETE",
+        })
+        const data = await res.json()
+        if(!res.ok) {
+          throw new Error(data.error || "Something went wrong"); 
+        }
+      } catch (error) {
+        console.log(error)
+        throw new Error(error)
+      }
+    }, 
+    onSuccess: () => {
+      toast.success("Logout Successfully");
+      navigate("/login"); 
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
 
   useEffect(() => {
         setTasks(JSON.parse(localStorage.getItem("tasks")));
@@ -255,7 +282,12 @@ const Dashboard = () => {
 <div className='bg-blue-600 w-screen p-5 flex flex-row justify-between'>
          <NotebookIcon  className='text-white' size={25}/>
          <div className='flex flex-row gap-10 text-white'>
-         <button className="btn btn-error text-white">Logout</button>
+         <button 
+         onClick={(e) => {
+           e.preventDefault();
+           logOut()
+         }}
+         className="btn btn-error text-white">Logout</button>
          </div>
         </div>
       {/* yaha per aur bhi logout wali chize aayegi baki  toast k baad sab sab dnd se wrap kr rhi */}
