@@ -5,6 +5,8 @@ import { MdPassword } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Navbar from './Navbar';
 import { User } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 const SignupPage = () => {
   const [formData, setFormData] = useState({
     firstname: "",
@@ -14,15 +16,45 @@ const SignupPage = () => {
     confirmpassword: ""
   })
 
+
+	const {mutate, isError, isPending, error} = useMutation({
+      mutationFn: async({firstname, lastname, email, password, confirmpassword}) => {
+				 try {
+					 const res = await fetch("/api/auth/signin", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({firstname, lastname, email, password, confirmpassword}),
+					 });
+
+					//  if(!res.ok) throw new Error("Something went wrong");
+					 const data = await res.json();
+					 if(data.error) throw new Error(data.error)
+					 console.log(data);
+           return data;
+					 
+				 } catch (error) {
+					  // toast.error(error.message)
+						throw error;
+				 }
+			}, 
+			onSuccess: () => {
+         toast.success("Account created successfully");
+			},
+			
+	})
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData)
+    // console.log(formData)
+		mutate(formData)
   }
 
   const handleInputChange = (e) => {
     setFormData({...formData, [e.target.name] : e.target.value});
   }
-  const isPending = false;
+  // const isPending = false;
   return (
     <div>
        <Navbar />
@@ -88,15 +120,21 @@ const SignupPage = () => {
 							value={formData.confirmpassword}
 						/>
 					</label>
-          <button className='btn rounded-md w-[230px] btn-primary text-white'>Signup</button>
-          <div className='flex flex-col gap-2 mt-4'>
+          <button className='btn rounded-md w-[230px] btn-primary text-white'>{isPending ? "Loading" : "Sign up"}</button>
+					{isError && <p className='text-red-400'>{error.message}</p>}
+          {/* <div className='flex flex-col gap-2 mt-4'>
+					<p className='text-black text-lg'>{"Don't"}Already have an account?
+					<Link to='/' className='text-blue-600 pl-2'>Login</Link>
+          </p>
+          <button className='btn rounded-md btn-primary text-white'>Login with Google</button>
+				</div> */}
+          </form>
+					<div className='flex flex-col gap-2 mt-4'>
 					<p className='text-black text-lg'>{"Don't"}Already have an account?
 					<Link to='/' className='text-blue-600 pl-2'>Login</Link>
           </p>
           <button className='btn rounded-md btn-primary text-white'>Login with Google</button>
 				</div>
-          </form>
-         
          </div>
        </div>
     </div>
