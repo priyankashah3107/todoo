@@ -6,8 +6,18 @@ export const createPost = async (req, res) => {
     const {name, description } = req.body;
      
     if(!name || !description) {
-      return res.status(404).json({error: "Todo and Description are importent"});
+      return res.status(404).json({error: "Todo and Description are important"});
     }
+    
+    if(name.length < 3){
+      return res.status(404).json({err: "Tasks Must be greater than 3 characters"});
+    }
+
+    if(description.length > 100) {
+      return res.status(404).json({err: "Description Must not be exceeded more than 100 characters"});
+
+    }
+
     const userId = req.user._id.toString();
 
     const user = await User.findById(userId);

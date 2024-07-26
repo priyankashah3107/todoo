@@ -2,12 +2,13 @@
 import React, { useState } from 'react'
 import { MdEmail, MdOutlineMail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from './Navbar';
 import { User } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 const SignupPage = () => {
+	const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -41,6 +42,7 @@ const SignupPage = () => {
 			}, 
 			onSuccess: () => {
          toast.success("Account created successfully");
+				 navigate("/login")
 			},
 			
 	})
