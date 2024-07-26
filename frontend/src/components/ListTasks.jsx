@@ -206,7 +206,7 @@ function ListTasks({ tasks, setTasks }) {
       const filterInProgress = tasks.filter((task) => task.status === "inProgress");
       const filterClosed = tasks.filter((task) => task.status === "closed");
 
-      setTodos(filterTodo);
+      setTodos([...filterTodo, ...todos]);
       setInProgress(filterInProgress);
       setClosed(filterClosed);
     }
