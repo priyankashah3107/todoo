@@ -247,7 +247,7 @@ import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
-  console.log("tasks", tasks);
+  console.log("tasks comes from Dashboard", tasks);
 
   const {mutate: logOut} = useMutation({
     mutationFn: async () => {
