@@ -246,31 +246,28 @@ import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
-  const [todos, setTodos] = useState([]);
+ 
   const navigate = useNavigate();
   
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await fetch("/api/posts/all");
-  //       if (!res.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       const result = await res.json();
-  //       if (result.error) {
-  //         throw new Error(result.error);
-  //       }
-  //       console.log("GetAllData", result);
-  //       setTodos(result);
-  //     } catch (error) {
-  //       console.error('Fetch error:', error);
-        
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/posts/all");
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await res.json();
+        if (result.error) {
+          throw new Error(result.error);
+        }
+        setTasks(result);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
-
+    fetchData();
+  }, []);
 
   console.log("tasks comes from Dashboard", tasks);
 
@@ -298,36 +295,7 @@ const Dashboard = () => {
     }
   });
 
-  // const {mutate: authUser} = useMutation({
-  //    mutationFn: async () => {
-  //      try {
-  //          const res = await fetch("/api/auth/me");
-  //          const data = await res.json();
-  //          if(!res.ok) {
-  //           throw new Error(data.error || "Something went wrong");
-  //          } 
-  //          console.log("This is AuthUser", data);
-  //          return data;
-  //      } catch (error) {
-  //       console.error(error.message);
-  //        throw new Error(error)
-  //      }
-  //    },
-  //    onSuccess: () => {
-  //     toast.success("AuthUSer")
-  //     navigate("/dashboard")
-  //    },
-  //    onError: (error) => {
-  //      toast.error(error)
-  //    }
-  // })
-
-
- 
-
-  // useEffect(() => {
-  //       setTasks(JSON.parse(localStorage.getItem("tasks")));
-  // }, [])
+  
   return (
     <> 
 

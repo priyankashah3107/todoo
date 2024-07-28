@@ -281,6 +281,7 @@ const Section = ({status, tasks, setTasks, todos, inProgress, closed}) => {
         if(t?._id === _id){
           return {...t, status: status};
         }
+        console.log("modifitasks", t)
         return t;
       });
       // localStorage.setItem("tasks", JSON.stringify(modifiTasks));
@@ -295,7 +296,7 @@ const Section = ({status, tasks, setTasks, todos, inProgress, closed}) => {
     <div ref={drop} className={`w-64 rounded-md p-2 ${isOver ? "bg-[#f5f5f5]" : ""}`}>
       <Header text={text} bg={bg} count={taskToMap.length} />
       {taskToMap.length > 0 && taskToMap.map((task) => (
-        <Task key={task.id} task={task} tasks={tasks} setTasks={setTasks}/>
+        <Task key={task._id} task={task} tasks={tasks} setTasks={setTasks}/>
       ))}
     </div>
      
@@ -335,16 +336,16 @@ const Task = ({task,  tasks, setTasks}) => {
   // fetching the data 
 
 
-  // const handleDelete = (id) => {
-  //    console.log(id);
+  const handleDelete = (id) => {
+     console.log(id);
 
-  //    const fTasks = tasks.filter((t) => t.id !== id);
+     const fTasks = tasks.filter((t) => t.id !== id);
 
-  //    localStorage.setItem("tasks", JSON.stringify(fTasks)); 
-  //    setTasks(fTasks)
+     localStorage.setItem("tasks", JSON.stringify(fTasks)); 
+     setTasks(fTasks)
 
-  //    toast.success("👻 Tasks Removed")
-  // };
+     toast.success("👻 Tasks Removed")
+  };
 
    
   return (
