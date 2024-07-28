@@ -273,12 +273,12 @@ const Section = ({status, tasks, setTasks, todos, inProgress, closed}) => {
     taskToMap = closed;
   }
 
-  const addItemToSection = (id) => {
-     console.log("Dropped", id, status)
+  const addItemToSection = (_id) => {
+     console.log("Dropped", _id, status)
      
      setTasks((prev) => {
       const modifiTasks = prev.map((t) => {
-        if(t.id === id){
+        if(t?._id === _id){
           return {...t, status: status};
         }
         return t;
@@ -323,7 +323,7 @@ const Task = ({task,  tasks, setTasks}) => {
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
-    item: {id: task.id},
+    item: {id: task?._id},
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -335,21 +335,21 @@ const Task = ({task,  tasks, setTasks}) => {
   // fetching the data 
 
 
-  const handleDelete = (id) => {
-     console.log(id);
+  // const handleDelete = (id) => {
+  //    console.log(id);
 
-     const fTasks = tasks.filter((t) => t.id !== id);
+  //    const fTasks = tasks.filter((t) => t.id !== id);
 
-     localStorage.setItem("tasks", JSON.stringify(fTasks)); 
-     setTasks(fTasks)
+  //    localStorage.setItem("tasks", JSON.stringify(fTasks)); 
+  //    setTasks(fTasks)
 
-     toast.success("👻 Tasks Removed")
-  };
+  //    toast.success("👻 Tasks Removed")
+  // };
 
    
   return (
    <>
-     <div key={task.id} className="">
+     <div key={task?._id} className="">
       <div ref={drag} className={`bg-blue-100 p-10 mt-8 rounded-lg shadow-lg cursor-grab flex flex-col gap-2 ${isDragging ? "opacity-30" : "opacity-100"} `}>
         <h1 className='text-xl font-semibold'>{task.name}</h1>
         <p className="font-medium text-gray-700">{task.description}</p>

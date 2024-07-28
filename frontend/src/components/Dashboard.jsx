@@ -246,7 +246,32 @@ import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
+  const [todos, setTodos] = useState([]);
   const navigate = useNavigate();
+  
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await fetch("/api/posts/all");
+  //       if (!res.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       const result = await res.json();
+  //       if (result.error) {
+  //         throw new Error(result.error);
+  //       }
+  //       console.log("GetAllData", result);
+  //       setTodos(result);
+  //     } catch (error) {
+  //       console.error('Fetch error:', error);
+        
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+
   console.log("tasks comes from Dashboard", tasks);
 
   const {mutate: logOut} = useMutation({
@@ -297,9 +322,12 @@ const Dashboard = () => {
   //    }
   // })
 
-  useEffect(() => {
-        setTasks(JSON.parse(localStorage.getItem("tasks")));
-  }, [])
+
+ 
+
+  // useEffect(() => {
+  //       setTasks(JSON.parse(localStorage.getItem("tasks")));
+  // }, [])
   return (
     <> 
 
