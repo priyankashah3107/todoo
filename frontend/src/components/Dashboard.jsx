@@ -271,6 +271,43 @@ const Dashboard = () => {
 
   console.log("tasks comes from Dashboard", tasks);
 
+  // useEffect(() => {
+  //   const loadTasks = () => {
+  //     const storedTasks = localStorage.getItem('tasks');
+  //     if (storedTasks) {
+  //       setTasks(JSON.parse(storedTasks));
+  //     } else {
+  //       fetchData();
+  //     }
+  //   };
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await fetch('/api/posts/all');
+  //       if (!res.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       const result = await res.json();
+  //       if (result.error) {
+  //         throw new Error(result.error);
+  //       }
+  //       setTasks(result);
+  //       localStorage.setItem('tasks', JSON.stringify(result));
+  //     } catch (error) {
+  //       console.error('Fetch error:', error);
+  //     }
+  //   };
+
+  //   loadTasks();
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem('tasks', JSON.stringify(tasks));
+  // }, [tasks]);
+
+  // console.log('tasks comes from Dashboard', tasks);
+
+
   const {mutate: logOut} = useMutation({
     mutationFn: async () => {
       try {

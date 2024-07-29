@@ -216,7 +216,8 @@ const ListTasks = ({tasks, setTasks}) => {
 
     setTodos(filterTodo);
     setInProgress(filterinProgress);
-    setClosed(filterClosed)
+    setClosed(filterClosed);
+    
     }
   }, [tasks]);
 
@@ -284,7 +285,7 @@ const Section = ({status, tasks, setTasks, todos, inProgress, closed}) => {
         console.log("modifitasks", t)
         return t;
       });
-      // localStorage.setItem("tasks", JSON.stringify(modifiTasks));
+      localStorage.setItem('tasks', JSON.stringify(modifiTasks));
       toast.success("🎉 Tasks status Changed")
       return modifiTasks;
      })
@@ -366,3 +367,9 @@ const Task = ({task,  tasks, setTasks}) => {
    </>
   )
 }
+
+
+
+// kuch aisa kar skte like todo elemefmt mei se selected item jo inprogress mei ja rha h drag and drop mei wo pop krte jaye ya minus  ya selected id ko minus krte jaye 
+
+// ya ye kar skte h created element ko push kr skte h todo wale id mei and selected item ko pop krte jaye jab wo select hokr drag and drop mei jaye 

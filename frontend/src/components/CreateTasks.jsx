@@ -123,6 +123,7 @@ const CreateTasks = ({ tasks, setTasks }) => {
       onSuccess: (data) => {
         toast.success("Todo Created Successfully");
         setTasks((prevTasks) => [...prevTasks, data.newPost]);
+       
         setTask({
           id: "",
         name: "",
@@ -148,6 +149,7 @@ const CreateTasks = ({ tasks, setTasks }) => {
       description: "",
       status: "todo", // can also be inprogress or closed
       createdAt: "",
+      
     });
   };
 
